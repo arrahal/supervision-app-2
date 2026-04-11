@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="مشرف تربوي">
+<title>مشرف تربوي · ARRAHAL LAHCEN</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f0f2f5;color:#1a1a1a;min-height:100vh}
+.header{background:#fff;border-bottom:1px solid #e5e7eb;padding:10px 16px;position:sticky;top:0;z-index:100;box-shadow:0 1px 4px rgba(0,0,0,0.06)}
+.header-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.logo{display:flex;align-items:center;gap:8px}
+.logo-icon{width:34px;height:34px;background:#dbeafe;border-radius:9px;display:flex;align-items:center;justify-content:center}
+.logo-icon svg{width:20px;height:20px}
+.app-title{font-size:15px;font-weight:600;color:#111}
+.app-sub{font-size:11px;color:#6b7280}
+.badge{font-size:10px;padding:3px 9px;border-radius:20px;background:#dcfce7;color:#166534;font-weight:600}
+.nav{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+.nav::-webkit-scrollbar{display:none}
+.nav-btn{padding:7px 13px;border-radius:20px;border:1px solid #e5e7eb;background:transparent;color:#6b7280;font-size:12px;cursor:pointer;white-space:nowrap;font-weight:500;transition:all 0.15s;font-family:inherit}
+.nav-btn.active{background:#1e40af;color:#fff;border-color:#1e40af}
+.content{padding:12px 16px;max-width:600px;margin:0 auto;padding-bottom:30px}
+.section{display:none}
+.section.active{display:block}
+/* Stats */
+.stats-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:14px}
+.stat-card{background:#fff;border-radius:14px;border:1px solid #e5e7eb;padding:14px 12px}
+.stat-label{font-size:11px;color:#6b7280;margin-bottom:4px;font-weight:500}
+.stat-value{font-size:28px;font-weight:700;line-height:1}
+.stat-sub{font-size:11px;color:#9ca3af;margin-top:3px}
+.stat-card.blue .stat-value{color:#1e40af}
+.stat-card.green .stat-value{color:#166534}
+.stat-card.amber .stat-value{color:#92400e}
+.stat-card.teal .stat-value{color:#134e4a}
+/* Cards */
+.card{background:#fff;border-radius:14px;border:1px solid #e5e7eb;margin-bottom:10px;overflow:hidden}
+.card-header{padding:13px 14px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;gap:8px;user-select:none}
+.card-header-left{display:flex;align-items:center;gap:10px;flex:1;min-width:0}
+.avatar{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;flex-shrink:0}
+.av-blue{background:#dbeafe;color:#1e40af}
+.av-teal{background:#ccfbf1;color:#0f766e}
+.av-purple{background:#ede9fe;color:#7c3aed}
+.av-amber{background:#fef3c7;color:#92400e}
+.av-coral{background:#fee2e2;color:#991b1b}
+.card-name{font-size:13px;font-weight:600;color:#111;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.card-sub{font-size:11px;color:#6b7280;margin-top:1px}
+.chevron{color:#9ca3af;font-size:13px;transition:transform 0.2s;flex-shrink:0}
+.chevron.open{transform:rotate(180deg)}
+.card-body{padding:12px 14px;border-top:1px solid #f3f4f6;display:none}
+.card-body.open{display:block}
+.info-row{display:flex;justify-content:space-between;align-items:flex-start;padding:6px 0;border-bottom:1px solid #f9fafb}
+.info-row:last-child{border-bottom:none}
+.info-label{font-size:12px;color:#6b7280;flex-shrink:0;margin-left:8px}
+.info-val{font-size:12px;color:#111;text-align:left;flex:1}
+/* Tags */
+.tag{display:inline-block;padding:2px 8px;border-radius:20px;font-size:10px;margin:2px 2px 2px 0;font-weight:500}
+.tag-blue{background:#dbeafe;color:#1e40af}
+.tag-green{background:#dcfce7;color:#166534}
+.tag-amber{background:#fef3c7;color:#92400e}
+.tag-gray{background:#f3f4f6;color:#374151}
+.tag-red{background:#fee2e2;color:#991b1b}
+/* Section title */
+.section-title{font-size:13px;font-weight:600;color:#374151;margin-bottom:8px;margin-top:14px}
+.section-title:first-child{margin-top:0}
+/* Progress */
+.progress-bar{height:6px;background:#f3f4f6;border-radius:3px;overflow:hidden;margin-top:5px}
+.progress-fill{height:100%;border-radius:3px;transition:width 0.6s ease}
+/* Action cards */
+.action-card{background:#fff;border-radius:14px;border:1px solid #e5e7eb;padding:13px 14px;margin-bottom:10px}
+.action-title{font-size:13px;font-weight:600;color:#111;margin-bottom:4px}
+.action-desc{font-size:12px;color:#6b7280;margin-bottom:8px;line-height:1.5}
+.action-meta{display:flex;gap:6px;flex-wrap:wrap}
+/* Filters */
+.filters{background:#fff;border-radius:14px;border:1px solid #e5e7eb;padding:12px;margin-bottom:12px}
+.filters-title{font-size:11px;color:#9ca3af;margin-bottom:8px;font-weight:600;text-transform:uppercase;letter-spacing:.5px}
+.filter-row{display:flex;gap:8px;flex-wrap:wrap}
+.filter-select{flex:1;min-width:130px;padding:8px 10px;border-radius:10px;border:1px solid #e5e7eb;background:#fff;color:#111;font-size:13px;font-family:inherit}
+.search-box{width:100%;padding:9px 14px;border-radius:12px;border:1px solid #e5e7eb;background:#fff;color:#111;font-size:13px;margin-bottom:10px;font-family:inherit}
+/* Criteria */
+.criteria-item{display:flex;align-items:flex-start;gap:9px;padding:9px 0;border-bottom:1px solid #f9fafb}
+.criteria-item:last-child{border-bottom:none}
+.criteria-num{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;background:#dbeafe;color:#1e40af}
+.criteria-text{flex:1}
+.criteria-name{font-size:12px;font-weight:600;color:#111}
+.criteria-desc{font-size:11px;color:#6b7280;line-height:1.4;margin-top:2px}
+.score-row{display:flex;gap:5px;margin-top:6px}
+.score-dot{width:34px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;cursor:pointer;border:1.5px solid #e5e7eb;background:#f9fafb;color:#9ca3af;transition:all 0.15s}
+.score-dot.active-0{background:#fee2e2;color:#991b1b;border-color:#fca5a5}
+.score-dot.active-1{background:#fef3c7;color:#92400e;border-color:#fcd34d}
+.score-dot.active-2{background:#dcfce7;color:#166534;border-color:#86efac}
+.score-dot.active-3{background:#ccfbf1;color:#0f766e;border-color:#5eead4}
+/* Visit btn */
+.visit-btn{width:100%;padding:13px;border-radius:12px;border:none;background:#1e40af;color:#fff;font-size:14px;font-weight:600;cursor:pointer;margin-top:12px;font-family:inherit;transition:background 0.15s}
+.visit-btn:active{background:#1d3a98}
+/* Objectives */
+.objective-item{display:flex;gap:10px;padding:9px 0;border-bottom:1px solid #f9fafb;align-items:flex-start}
+.objective-item:last-child{border-bottom:none}
+.obj-num{font-size:11px;font-weight:700;color:#1e40af;min-width:22px}
+.obj-content{flex:1}
+.obj-title{font-size:12px;font-weight:600;color:#111}
+.obj-desc{font-size:11px;color:#6b7280;margin-top:2px;line-height:1.4}
+.obj-cible{font-size:10px;padding:2px 8px;border-radius:20px;background:#dcfce7;color:#166534;display:inline-block;margin-top:4px;font-weight:600}
+/* Phase cards */
+.phase-card{border-radius:12px;padding:11px 13px;margin-bottom:9px}
+.phase-before{background:#eff6ff;border-right:4px solid #3b82f6}
+.phase-during{background:#fffbeb;border-right:4px solid #f59e0b}
+.phase-feedback{background:#fdf2f8;border-right:4px solid #ec4899}
+.phase-after{background:#f0fdf4;border-right:4px solid #22c55e}
+.phase-title{font-size:12px;font-weight:700;margin-bottom:7px}
+.phase-before .phase-title{color:#1d4ed8}
+.phase-during .phase-title{color:#b45309}
+.phase-feedback .phase-title{color:#be185d}
+.phase-after .phase-title{color:#15803d}
+.phase-step{font-size:11px;color:#374151;padding:2px 0;display:flex;gap:7px;line-height:1.4}
+.phase-step::before{content:"•";color:#9ca3af;flex-shrink:0}
+/* Zone chart */
+.zone-row{display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid #f9fafb}
+.zone-row:last-child{border-bottom:none}
+.zone-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+.zone-name{flex:1;font-size:12px;color:#374151;font-weight:500}
+.zone-bar-wrap{flex:2}
+.zone-count{font-size:12px;color:#6b7280;font-weight:600;min-width:55px;text-align:left}
+/* Score result */
+.score-result-card{background:#fff;border-radius:14px;border:1px solid #e5e7eb;padding:16px;margin-top:12px}
+.score-big{font-size:42px;font-weight:700;line-height:1}
+.empty{text-align:center;padding:40px 20px;color:#9ca3af;font-size:13px}
+.warn-box{background:#fffbeb;border:1px solid #fcd34d;border-radius:12px;padding:12px 14px;margin-top:12px}
+.warn-title{font-size:13px;font-weight:600;color:#92400e;margin-bottom:3px}
+.warn-desc{font-size:12px;color:#b45309}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-top">
+    <div class="logo">
+      <div class="logo-icon">
+        <svg viewBox="0 0 20 20" fill="none">
+          <rect x="2" y="2" width="7" height="7" rx="2" fill="#1e40af"/>
+          <rect x="11" y="2" width="7" height="7" rx="2" fill="#1e40af" opacity="0.4"/>
+          <rect x="2" y="11" width="7" height="7" rx="2" fill="#1e40af" opacity="0.4"/>
+          <rect x="11" y="11" width="7" height="7" rx="2" fill="#1e40af"/>
+        </svg>
+      </div>
+      <div>
+        <div class="app-title">مشرف تربوي</div>
+        <div class="app-sub">ARRAHAL LAHCEN · INDH Chichaoua</div>
+      </div>
+    </div>
+    <span class="badge">2025/2026</span>
+  </div>
+  <div class="nav">
+    <button class="nav-btn active" onclick="showSection('dashboard',this)">لوحة التحكم</button>
+    <button class="nav-btn" onclick="showSection('animateurs',this)">المربون</button>
+    <button class="nav-btn" onclick="showSection('ecoles',this)">المدارس</button>
+    <button class="nav-btn" onclick="showSection('visite',this)">زيارة ميدانية</button>
+    <button class="nav-btn" onclick="showSection('objectifs',this)">الأهداف</button>
+    <button class="nav-btn" onclick="showSection('processus',this)">مسار الزيارة</button>
+  </div>
+</div>
+
+<div class="content">
+
+<!-- DASHBOARD -->
+<div id="dashboard" class="section active">
+  <div class="stats-grid">
+    <div class="stat-card blue"><div class="stat-label">المدارس</div><div class="stat-value">17</div><div class="stat-sub">مدرسة مُتابَعة</div></div>
+    <div class="stat-card green"><div class="stat-label">المجموعات</div><div class="stat-value">67</div><div class="stat-sub">مجموعة دعم</div></div>
+    <div class="stat-card amber"><div class="stat-label">المربون</div><div class="stat-value">10</div><div class="stat-sub">مربٍ ومربية</div></div>
+    <div class="stat-card teal"><div class="stat-label">المتعلمون</div><div class="stat-value">1291</div><div class="stat-sub">إجمالي المستفيدين</div></div>
+  </div>
+
+  <div class="section-title">توزيع المتعلمين حسب المنطقة</div>
+  <div class="card"><div style="padding:12px 14px" id="zones-chart"></div></div>
+
+  <div class="section-title">خطة العمل · مارس 2026</div>
+  <div class="action-card">
+    <div class="action-title">العمل الإداري</div>
+    <div class="action-desc">مشاركة المعلومات الشهرية · الإعداد الإداري · دعم التكوين الأساسي</div>
+    <div class="action-meta"><span class="tag tag-blue">1–2 مارس</span><span class="tag tag-gray">مسؤول: المشرف</span><span class="tag tag-green">2 أيام</span></div>
+  </div>
+  <div class="action-card">
+    <div class="action-title">الزيارات الميدانية للمربين</div>
+    <div class="action-desc">زيارة جميع المربين شهرياً · زيارة كل مدرسة كل شهرين على الأقل</div>
+    <div class="action-meta"><span class="tag tag-amber">هدف: 100%</span><span class="tag tag-gray">طوال الشهر</span></div>
+  </div>
+  <div class="action-card">
+    <div class="action-title">التكوين الشهري</div>
+    <div class="action-desc">تنفيذ 100% من التكوينات الشهرية المقررة حسب التخطيط السنوي المعتمد</div>
+    <div class="action-meta"><span class="tag tag-green">هدف: 100%</span><span class="tag tag-gray">حسب التخطيط</span></div>
+  </div>
+</div>
+
+<!-- ANIMATEURS -->
+<div id="animateurs" class="section">
+  <input type="text" class="search-box" placeholder="🔍 ابحث باسم المربي أو المنطقة..." oninput="filterAnimateurs(this.value)" />
+  <div id="animateurs-list"></div>
+</div>
+
+<!-- ECOLES -->
+<div id="ecoles" class="section">
+  <div class="filters">
+    <div class="filters-title">تصفية النتائج</div>
+    <div class="filter-row">
+      <select class="filter-select" onchange="filterEcoles()" id="filter-zone">
+        <option value="">كل المناطق</option>
+        <option>ASSIF EL MAL</option>
+        <option>MEJJAT</option>
+        <option>AIT HADI</option>
+        <option>AHDIL</option>
+        <option>ADASSIL</option>
+      </select>
+      <select class="filter-select" onchange="filterEcoles()" id="filter-anim-ecole">
+        <option value="">كل المربين</option>
+        <option>QAROUANE KHALID</option>
+        <option>SALAH SAHIL</option>
+        <option>BASSOU ZAHRAOUI</option>
+        <option>CHOUIMAKHE YASSINE</option>
+        <option>FATIMA EZZAHRA AGHMAN</option>
+        <option>MARYAM CHALLAKHE</option>
+        <option>ISMAIL MOHATI</option>
+        <option>NOUHAILA REBAH</option>
+        <option>SOUFIANE LOUBBI</option>
+        <option>FARID EL KHOUBZI</option>
+      </select>
+    </div>
+  </div>
+  <div id="ecoles-list"></div>
+</div>
+
+<!-- VISITE -->
+<div id="visite" class="section">
+  <div class="filters">
+    <div class="filters-title">إعداد بطاقة الزيارة</div>
+    <div class="filter-row">
+      <select class="filter-select" id="v-animateur" onchange="updateVisiteSchools()">
+        <option value="">اختر المربي/ة</option>
+        <option>QAROUANE KHALID</option>
+        <option>SALAH SAHIL</option>
+        <option>BASSOU ZAHRAOUI</option>
+        <option>CHOUIMAKHE YASSINE</option>
+        <option>FATIMA EZZAHRA AGHMAN</option>
+        <option>MARYAM CHALLAKHE</option>
+        <option>ISMAIL MOHATI</option>
+        <option>NOUHAILA REBAH</option>
+        <option>SOUFIANE LOUBBI</option>
+        <option>FARID EL KHOUBZI</option>
+      </select>
+      <select class="filter-select" id="v-ecole">
+        <option value="">اختر المدرسة</option>
+      </select>
+    </div>
+  </div>
+  <div class="section-title">شبكة التقييم · 14 معياراً (0 إلى 3)</div>
+  <div class="card"><div style="padding:12px 14px" id="criteria-list"></div></div>
+  <button class="visit-btn" onclick="calcScore()">✓ احتساب المجموع والحفظ</button>
+  <div id="score-result"></div>
+</div>
+
+<!-- OBJECTIFS -->
+<div id="objectifs" class="section">
+  <div class="filters">
+    <div class="filters-title">نوع الأهداف</div>
+    <div class="filter-row">
+      <select class="filter-select" onchange="showObjectifs(this.value)">
+        <option value="operationnel">الأهداف التشغيلية</option>
+        <option value="pedagogique">الأهداف التربوية</option>
+        <option value="administratif">الأهداف الإدارية</option>
+      </select>
+    </div>
+  </div>
+  <div id="objectifs-list"></div>
+</div>
+
+<!-- PROCESSUS -->
+<div id="processus" class="section">
+  <div class="section-title">قبل الزيارة</div>
+  <div class="phase-card phase-before">
+    <div class="phase-title">البرمجة والتحضير</div>
+    <div class="phase-step">تحديد أهداف الزيارة وتخطيطها حسب الصعوبات المرصودة</div>
+    <div class="phase-step">مراجعة ملاحظات الزيارة السابقة والمرجع البيداغوجي</div>
+    <div class="phase-step">تحضير قائمة الملاحظة والبطاقة الفارغة (14 معيار)</div>
+  </div>
+
+  <div class="section-title">خلال الزيارة</div>
+  <div class="phase-card phase-during">
+    <div class="phase-title">الملاحظة والتنقيط</div>
+    <div class="phase-step">اتخاذ موقع بدون إزعاج · لا تدخل إلا في حالة خطأ جسيم</div>
+    <div class="phase-step">طلب الوثائق: دفتر التحضير، سجل الغيابات، بطاقة المتابعة</div>
+    <div class="phase-step">ملء شبكة التقييم (0-3) للمعايير الـ14 مع ملاحظات دقيقة</div>
+    <div class="phase-step">تسجيل مقترحات التحسين والنقاط الإيجابية</div>
+  </div>
+
+  <div class="phase-card phase-feedback">
+    <div class="phase-title">التغذية الراجعة (نهاية الزيارة)</div>
+    <div class="phase-step">سؤال المربي/ة عن انطباعاته/ها حول الحصة</div>
+    <div class="phase-step">مشاركة الملاحظات الإيجابية أولاً ثم نقاط التحسين</div>
+    <div class="phase-step">توقيع بطاقة الإشراف من الطرفين</div>
+  </div>
+
+  <div class="section-title">بعد الزيارة</div>
+  <div class="phase-card phase-after">
+    <div class="phase-title">المتابعة والتقرير</div>
+    <div class="phase-step">تسجيل الزيارة في بطاقة متابعة المشروع</div>
+    <div class="phase-step">إرسال التقرير إلى المسؤول الجهوي</div>
+    <div class="phase-step">متابعة تطبيق خطة العمل عبر واتساب / البريد الإلكتروني</div>
+    <div class="phase-step">إعداد التركيبة الشهرية للإشراف التربوي وتشاركها مع الفريق</div>
+  </div>
+
+  <div class="section-title">الوثائق المطلوبة</div>
+  <div class="card">
+    <div style="padding:12px 14px">
+      <div class="info-row"><span class="info-label">قبل</span><span class="info-val"><span class="tag tag-blue">برنامج المتابعة</span><span class="tag tag-blue">بطاقة الإشراف</span><span class="tag tag-blue">دفتر المشرف</span></span></div>
+      <div class="info-row"><span class="info-label">خلال</span><span class="info-val"><span class="tag tag-amber">دفتر التحضير</span><span class="tag tag-amber">سجل الغيابات</span><span class="tag tag-amber">بطاقة متابعة التلاميذ</span></span></div>
+      <div class="info-row"><span class="info-label">بعد</span><span class="info-val"><span class="tag tag-green">تقرير الزيارة</span><span class="tag tag-green">البطاقة الموقعة</span></span></div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /content -->
+
+<script>
+const animateurs=[
+  {name:"QAROUANE KHALID",tel:"0621403357",zone:"Assif el mal",color:"av-blue",initials:"QK",schools:["ECOLE ASSIF EL MAL G1","ECOLE ASSIF EL MAL G2","ECOLE TASKKOURT G3","ECOLE TASKKOURT G4","ECOLE IMINE IGHZER G5","ECOLE IMINE IGHZER G6"]},
+  {name:"SALAH SAHIL",tel:"0679739737",zone:"Assif el mal",color:"av-teal",initials:"SS",schools:["ECOLE IMINE OUASSIF G1","ECOLE IMINE OUASSIF G2","ECOLE DAR ENNAMS G3","ECOLE DAR ENNAMS G4"]},
+  {name:"BASSOU ZAHRAOUI",tel:"0602581314",zone:"Mejjat",color:"av-purple",initials:"BZ",schools:["ECOLE LARAOUIYNE G1","ECOLE LARAOUIYNE G2","ECOLE BORKBA G3","ECOLE BORKBA G4"]},
+  {name:"CHOUIMAKHE YASSINE",tel:"0694557511",zone:"Ahdil",color:"av-amber",initials:"CY",schools:["ECOLE DEHAMNA G1","ECOLE DEHAMNA G2","ECOLE TAKHNZA G3","ECOLE TAKHNZA G4"]},
+  {name:"FATIMA EZZAHRA AGHMAN",tel:"0700162009",zone:"Ait Hadi",color:"av-coral",initials:"FA",schools:["ECOLE AIT HADI 1 G1","ECOLE AIT HADI 1 G2","ECOLE AIT HADI 1 G3","ECOLE AIT HADI 1 G4","ECOLE SAOUIHLA 1 G5"]},
+  {name:"MARYAM CHALLAKHE",tel:"0690057990",zone:"Ait Hadi",color:"av-blue",initials:"MC",schools:["ECOLE AIT HADI 2 G1","ECOLE AIT HADI 2 G2","ECOLE AIT HADI 2 G3","ECOLE AIT HADI 2 G4","ECOLE SAOUIHLA 2 G5"]},
+  {name:"ISMAIL MOHATI",tel:"0696113602",zone:"Ahdil",color:"av-teal",initials:"IM",schools:["ECOLE LAADILAT G1","ECOLE LAADILAT G2","ECOLE LAADILAT G3","ECOLE LAADILAT G4","ECOLE LBIADE G5","ECOLE LBIADE G6"]},
+  {name:"NOUHAILA REBAH",tel:"0650947583",zone:"Ahdil",color:"av-purple",initials:"NR",schools:["ECOLE AHDIL G1","ECOLE AHDIL G2","ECOLE AHDIL G3","ECOLE AHDIL G4","ECOLE AHDIL G5"]},
+  {name:"SOUFIANE LOUBBI",tel:"0624818607",zone:"Ahdil",color:"av-amber",initials:"SL",schools:["ECOLE ZAOUINAT G1","ECOLE ZAOUNAT G2","ECOLE LAMJAHDYA G3","ECOLE LAMJAHDYA G4"]},
+  {name:"FARID EL KHOUBZI",tel:"0623919230",zone:"Adassil",color:"av-coral",initials:"FK",schools:["ECOLE AAZIB G1","ECOLE AAZIB G2","ECOLE AAZIB G3","ECOLE AAZIB G4"]}
+];
+
+const schoolsData=[
+  {name:"ECOLE ASSIF EL MAL G1",commune:"ASSIF EL MAL",zone:"ASSIF EL MAL",animateur:"QAROUANE KHALID",effectif:13,horaire:"09h00-11h00 / 14h00-16h00"},
+  {name:"ECOLE ASSIF EL MAL G2",commune:"ASSIF EL MAL",zone:"ASSIF EL MAL",animateur:"QAROUANE KHALID",effectif:17,horaire:"11h00-13h00 / 16h00-18h00"},
+  {name:"ECOLE TASKKOURT G3",commune:"ASSIF EL MAL",zone:"ASSIF EL MAL",animateur:"QAROUANE KHALID",effectif:9,horaire:"11h00-13h00 / 16h00-18h00"},
+  {name:"ECOLE TASKKOURT G4",commune:"ASSIF EL MAL",zone:"ASSIF EL MAL",animateur:"QAROUANE KHALID",effectif:19,horaire:"09h00-11h00 / 14h00-16h00"},
+  {name:"ECOLE IMINE IGHZER G5",commune:"ASSIF EL MAL",zone:"ASSIF EL MAL",animateur:"QAROUANE KHALID",effectif:17,horaire:"14h00-16h00 / 11h00-13h00"},
+  {name:"ECOLE IMINE IGHZER G6",commune:"ASSIF EL MAL",zone:"ASSIF EL MAL",animateur:"QAROUANE KHALID",effectif:13,horaire:"16h00-18h00 / 09h00-11h00"},
+  {name:"ECOLE IMINE OUASSIF G1",commune:"ASSIF EL MAL",zone:"ASSIF EL MAL",animateur:"SALAH SAHIL",effectif:28,horaire:"14H00-16H00 / 09h00-11h00"},
+  {name:"ECOLE IMINE OUASSIF G2",commune:"ASSIF EL MAL",zone:"ASSIF EL MAL",animateur:"SALAH SAHIL",effectif:23,horaire:"16H00-18H00 / 11h00-13h00"},
+  {name:"ECOLE DAR ENNAMS G3",commune:"ASSIF EL MAL",zone:"ASSIF EL MAL",animateur:"SALAH SAHIL",effectif:20,horaire:"14H00-16H00"},
+  {name:"ECOLE DAR ENNAMS G4",commune:"ASSIF EL MAL",zone:"ASSIF EL MAL",animateur:"SALAH SAHIL",effectif:23,horaire:"16h00-18h00"},
+  {name:"ECOLE LARAOUIYNE G1",commune:"MEJJAT",zone:"MEJJAT",animateur:"BASSOU ZAHRAOUI",effectif:21,horaire:"09h00-11h00 / 14H00-16H00"},
+  {name:"ECOLE LARAOUIYNE G2",commune:"MEJJAT",zone:"MEJJAT",animateur:"BASSOU ZAHRAOUI",effectif:19,horaire:"11h00-13h00 / 16H00-18H00"},
+  {name:"ECOLE BORKBA G3",commune:"MEJJAT",zone:"MEJJAT",animateur:"BASSOU ZAHRAOUI",effectif:20,horaire:"09h00-11h00"},
+  {name:"ECOLE BORKBA G4",commune:"MEJJAT",zone:"MEJJAT",animateur:"BASSOU ZAHRAOUI",effectif:20,horaire:"11h00-13h00"},
+  {name:"ECOLE DEHAMNA G1",commune:"AHDIL",zone:"AHDIL",animateur:"CHOUIMAKHE YASSINE",effectif:26,horaire:"09H00-11H00 / 16H00-18H00"},
+  {name:"ECOLE DEHAMNA G2",commune:"AHDIL",zone:"AHDIL",animateur:"CHOUIMAKHE YASSINE",effectif:15,horaire:"16h00-18h00 / 09H00-11H00"},
+  {name:"ECOLE TAKHNZA G3",commune:"AHDIL",zone:"AHDIL",animateur:"CHOUIMAKHE YASSINE",effectif:14,horaire:"11H30-13H30 / 13H30-15H30"},
+  {name:"ECOLE TAKHNZA G4",commune:"AHDIL",zone:"AHDIL",animateur:"CHOUIMAKHE YASSINE",effectif:17,horaire:"13H30-15H30 / 11H30-13H30"},
+  {name:"ECOLE AIT HADI 1 G1",commune:"AIT HADI",zone:"AIT HADI",animateur:"FATIMA EZZAHRA AGHMAN",effectif:22,horaire:"13h45-17h55"},
+  {name:"ECOLE AIT HADI 1 G2",commune:"AIT HADI",zone:"AIT HADI",animateur:"FATIMA EZZAHRA AGHMAN",effectif:20,horaire:"9h20-12h30"},
+  {name:"ECOLE AIT HADI 1 G3",commune:"AIT HADI",zone:"AIT HADI",animateur:"FATIMA EZZAHRA AGHMAN",effectif:22,horaire:"13h45-17h55"},
+  {name:"ECOLE AIT HADI 1 G4",commune:"AIT HADI",zone:"AIT HADI",animateur:"FATIMA EZZAHRA AGHMAN",effectif:23,horaire:"9h20-12h30"},
+  {name:"ECOLE SAOUIHLA 1 G5",commune:"AIT HADI",zone:"AIT HADI",animateur:"FATIMA EZZAHRA AGHMAN",effectif:14,horaire:"13h45-17h55"},
+  {name:"ECOLE AIT HADI 2 G1",commune:"AIT HADI",zone:"AIT HADI",animateur:"MARYAM CHALLAKHE",effectif:20,horaire:"9h20-11h20 / 11h30-13h30"},
+  {name:"ECOLE AIT HADI 2 G2",commune:"AIT HADI",zone:"AIT HADI",animateur:"MARYAM CHALLAKHE",effectif:18,horaire:"11h30-13h30 / 9h20-11h20"},
+  {name:"ECOLE AIT HADI 2 G3",commune:"AIT HADI",zone:"AIT HADI",animateur:"MARYAM CHALLAKHE",effectif:20,horaire:"9h20-11h20 / 13h45-15h45"},
+  {name:"ECOLE AIT HADI 2 G4",commune:"AIT HADI",zone:"AIT HADI",animateur:"MARYAM CHALLAKHE",effectif:19,horaire:"11h30-13h30 / 15h55-17h55"},
+  {name:"ECOLE SAOUIHLA 2 G5",commune:"AIT HADI",zone:"AIT HADI",animateur:"MARYAM CHALLAKHE",effectif:13,horaire:"14h00-18h00"},
+  {name:"ECOLE LAADILAT G1",commune:"AHDIL",zone:"AHDIL",animateur:"ISMAIL MOHATI",effectif:12,horaire:"09h00-13h00"},
+  {name:"ECOLE LAADILAT G2",commune:"AHDIL",zone:"AHDIL",animateur:"ISMAIL MOHATI",effectif:13,horaire:"09h00-13h00"},
+  {name:"ECOLE LAADILAT G3",commune:"AHDIL",zone:"AHDIL",animateur:"ISMAIL MOHATI",effectif:14,horaire:"09h00-13h00"},
+  {name:"ECOLE LAADILAT G4",commune:"AHDIL",zone:"AHDIL",animateur:"ISMAIL MOHATI",effectif:20,horaire:"09h00-13h00"},
+  {name:"ECOLE LBIADE G5",commune:"AHDIL",zone:"AHDIL",animateur:"ISMAIL MOHATI",effectif:18,horaire:"09h00-13h00"},
+  {name:"ECOLE LBIADE G6",commune:"AHDIL",zone:"AHDIL",animateur:"ISMAIL MOHATI",effectif:15,horaire:"09h00-13h00"},
+  {name:"ECOLE AHDIL G1",commune:"AHDIL",zone:"AHDIL",animateur:"NOUHAILA REBAH",effectif:42,horaire:"16h00-18h15 / 12h00-13h30"},
+  {name:"ECOLE AHDIL G2",commune:"AHDIL",zone:"AHDIL",animateur:"NOUHAILA REBAH",effectif:23,horaire:"13h45-16h00 / 12h00-13h30"},
+  {name:"ECOLE AHDIL G3",commune:"AHDIL",zone:"AHDIL",animateur:"NOUHAILA REBAH",effectif:23,horaire:"14h30-16h00 / 10h00-12h00"},
+  {name:"ECOLE AHDIL G4",commune:"AHDIL",zone:"AHDIL",animateur:"NOUHAILA REBAH",effectif:23,horaire:"10h00-12h00"},
+  {name:"ECOLE AHDIL G5",commune:"AHDIL",zone:"AHDIL",animateur:"NOUHAILA REBAH",effectif:20,horaire:"9h00-13h00"},
+  {name:"ECOLE ZAOUINAT G1",commune:"AHDIL",zone:"AHDIL",animateur:"SOUFIANE LOUBBI",effectif:18,horaire:"09h00-13h00"},
+  {name:"ECOLE ZAOUNAT G2",commune:"AHDIL",zone:"AHDIL",animateur:"SOUFIANE LOUBBI",effectif:18,horaire:"09h00-13h00"},
+  {name:"ECOLE LAMJAHDYA G3",commune:"AHDIL",zone:"AHDIL",animateur:"SOUFIANE LOUBBI",effectif:28,horaire:"14h00-18h00"},
+  {name:"ECOLE LAMJAHDYA G4",commune:"AHDIL",zone:"AHDIL",animateur:"SOUFIANE LOUBBI",effectif:31,horaire:"14h00-18h00"},
+  {name:"ECOLE AAZIB G1",commune:"ADASSIL",zone:"ADASSIL",animateur:"FARID EL KHOUBZI",effectif:31,horaire:"14H00-16H00 / 9H00-11H00"},
+  {name:"ECOLE AAZIB G2",commune:"ADASSIL",zone:"ADASSIL",animateur:"FARID EL KHOUBZI",effectif:26,horaire:"11H00-13H00"},
+  {name:"ECOLE AAZIB G3",commune:"ADASSIL",zone:"ADASSIL",animateur:"FARID EL KHOUBZI",effectif:31,horaire:"14H00-16H00 / 9H00-11H00"},
+  {name:"ECOLE AAZIB G4",commune:"ADASSIL",zone:"ADASSIL",animateur:"FARID EL KHOUBZI",effectif:26,horaire:"9H00-11H00 / 16H00-18H00"}
+];
+
+const criteria=[
+  {n:1,name:"المظهر العام",desc:"نظافة الفصل، ركن التجمع، الألعاب، الأدوات البيداغوجية"},
+  {n:2,name:"النظافة",desc:"نظافة المربية والأطفال"},
+  {n:3,name:"الانضباط الزمني",desc:"الالتزام بالحضور في الوقت المحدد"},
+  {n:4,name:"احترام التوقيت",desc:"احترام زمن الحصة وعدم الانتقاص منه"},
+  {n:5,name:"التحضير",desc:"دفتر التحضير، الأهداف، الفيش البيداغوجية"},
+  {n:6,name:"العلاقة مع الأطفال",desc:"التواصل، الاحترام المتبادل، التحفيز على المشاركة"},
+  {n:7,name:"تحقيق الأهداف",desc:"نسبة إنجاز أهداف الحصة المقررة"},
+  {n:8,name:"التقييم",desc:"تقييم موازٍ ومنتظم ودوري طوال الحصة"},
+  {n:9,name:"الابتكار",desc:"استخدام وسائل ومشاريع جديدة وإبداعية"},
+  {n:10,name:"المقاربة البيداغوجية",desc:"ملاءمة الأسلوب للسياق والفئة المستهدفة"},
+  {n:11,name:"مشاركة الأطفال",desc:"مشاركة فعلية وفعالة لأغلب الأطفال"},
+  {n:12,name:"تصحيح الأخطاء",desc:"وجود نظام منظم وفعال لتصحيح الأخطاء"},
+  {n:13,name:"استخدام اللغة",desc:"توظيف لغة مناسبة لمستوى وسن الأطفال"},
+  {n:14,name:"التوثيق والأرشفة",desc:"تحيين السجلات والوثائق الإدارية بانتظام"}
+];
+
+const objectifs={
+  operationnel:[
+    {n:1,title:"مكافحة الغياب",desc:"الحد من غياب المستفيدين — الهدف: أقل من 3 تلاميذ غائبين في اليوم",cible:"≤ 3 غياب/يوم"},
+    {n:2,title:"تعبئة الآباء",desc:"تحسيس الآباء للمشاركة في أنشطة التوعية — الهدف: 50%",cible:"50%"},
+    {n:3,title:"مكافحة الهدر المدرسي",desc:"الحد من هدر التلاميذ وتسريبهم — الهدف: 0%",cible:"0%"},
+    {n:4,title:"الإنجاز الكمي",desc:"تحقيق الأهداف الكمية (عدد التلاميذ) وفق الاتفاقيات المبرمة",cible:"متابعة مستمرة"},
+    {n:5,title:"الزيارات الميدانية",desc:"تحقيق 100% من الزيارات: كل المربين شهرياً، كل مدرسة كل شهرين",cible:"100%"},
+    {n:6,title:"احترام المساطر",desc:"ضمان احترام مساطر ومساطر المؤسسة في جميع العمليات",cible:"متابعة مستمرة"},
+    {n:7,title:"موثوقية المعلومة",desc:"ضمان دقة وصحة المعلومات المُرفَقة في التقارير",cible:"متابعة مستمرة"}
+  ],
+  pedagogique:[
+    {n:1,title:"التكوينات الشهرية",desc:"إنجاز 100% من التكوينات الشهرية وفق التخطيط السنوي المعتمد",cible:"100%"},
+    {n:2,title:"الإشراف التربوي",desc:"إنجاز زيارات الإشراف لجميع المربين كل شهر بانتظام",cible:"100%"},
+    {n:3,title:"تطوير الممارسات",desc:"دعم المربين في تطوير وتحسين أساليبهم البيداغوجية",cible:"متابعة مستمرة"},
+    {n:4,title:"تحليل الممارسات",desc:"تحليل ممارسات المربين ومشاركة نتائج الملاحظة معهم",cible:"بعد كل زيارة"}
+  ],
+  administratif:[
+    {n:1,title:"التقارير الشهرية",desc:"إعداد وإرسال التقارير الشهرية إلى المسؤول الجهوي في الوقت المحدد",cible:"قبل 5 من الشهر"},
+    {n:2,title:"لوحة القيادة",desc:"ملء لوحة القيادة الشهرية بدقة وإكمال جميع بياناتها",cible:"شهرياً"},
+    {n:3,title:"خطة العمل الشهرية",desc:"إعداد وتنفيذ خطة العمل الشهرية التفصيلية للمشرف",cible:"شهرياً"},
+    {n:4,title:"أرشفة الوثائق",desc:"حفظ وأرشفة جميع الوثائق والتقارير والبطاقات بانتظام",cible:"متابعة مستمرة"}
+  ]
+};
+
+let scores={};
+criteria.forEach(c=>scores[c.n]=-1);
+
+function showSection(id,btn){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+  if(id==='animateurs') renderAnimateurs('');
+  if(id==='ecoles') renderEcoles('','');
+  if(id==='visite') renderCriteria();
+  if(id==='objectifs') showObjectifs('operationnel');
+  if(id==='dashboard') renderZones();
+  window.scrollTo(0,0);
+}
+
+function renderZones(){
+  const zones={};
+  schoolsData.forEach(s=>{
+    if(!zones[s.zone]) zones[s.zone]={count:0,effectif:0};
+    zones[s.zone].count++;
+    zones[s.zone].effectif+=s.effectif;
+  });
+  const maxEff=Math.max(...Object.values(zones).map(z=>z.effectif));
+  const colors=['#3b82f6','#22c55e','#f59e0b','#ec4899','#8b5cf6'];
+  let html='';
+  Object.entries(zones).forEach(([zone,data],i)=>{
+    const pct=Math.round(data.effectif/maxEff*100);
+    html+=`<div class="zone-row">
+      <div class="zone-dot" style="background:${colors[i%colors.length]}"></div>
+      <div class="zone-name">${zone}</div>
+      <div class="zone-bar-wrap"><div class="progress-bar"><div class="progress-fill" style="width:${pct}%;background:${colors[i%colors.length]}"></div></div></div>
+      <div class="zone-count">${data.effectif} تلميذ</div>
+    </div>`;
+  });
+  document.getElementById('zones-chart').innerHTML=html;
+}
+
+function renderAnimateurs(q){
+  const list=document.getElementById('animateurs-list');
+  const filtered=animateurs.filter(a=>!q||a.name.toLowerCase().includes(q.toLowerCase())||a.zone.toLowerCase().includes(q.toLowerCase()));
+  if(!filtered.length){list.innerHTML='<div class="empty">لا توجد نتائج</div>';return;}
+  list.innerHTML=filtered.map((a,i)=>{
+    const total=schoolsData.filter(s=>a.schools.includes(s.name)).reduce((acc,s)=>acc+s.effectif,0);
+    return `<div class="card">
+      <div class="card-header" onclick="toggleCard('a${i}','ch${i}')">
+        <div class="card-header-left">
+          <div class="avatar ${a.color}">${a.initials}</div>
+          <div>
+            <div class="card-name">${a.name}</div>
+            <div class="card-sub">${a.zone} · ${a.schools.length} مجموعات · ${total} تلميذ</div>
+          </div>
+        </div>
+        <span class="chevron" id="ch${i}">▾</span>
+      </div>
+      <div class="card-body" id="a${i}">
+        <div class="info-row"><span class="info-label">الهاتف</span><span class="info-val" style="color:#1e40af"><a href="tel:${a.tel}" style="color:#1e40af;text-decoration:none">${a.tel}</a></span></div>
+        <div class="info-row"><span class="info-label">المنطقة</span><span class="info-val">${a.zone}</span></div>
+        <div class="info-row"><span class="info-label">المجموعات</span><span class="info-val">${a.schools.map(s=>'<span class="tag tag-blue">'+s+'</span>').join('')}</span></div>
+        <div class="info-row"><span class="info-label">المتعلمون</span><span class="info-val"><strong>${total}</strong> تلميذ</span></div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function filterAnimateurs(q){renderAnimateurs(q);}
+
+function renderEcoles(zone,anim){
+  const list=document.getElementById('ecoles-list');
+  let filtered=schoolsData;
+  if(zone) filtered=filtered.filter(s=>s.zone===zone);
+  if(anim) filtered=filtered.filter(s=>s.animateur===anim);
+  if(!filtered.length){list.innerHTML='<div class="empty">لا توجد نتائج</div>';return;}
+  list.innerHTML=filtered.map((s,i)=>{
+    const animObj=animateurs.find(a=>a.name===s.animateur);
+    const color=animObj?animObj.color:'av-blue';
+    const init=animObj?animObj.initials:s.animateur.slice(0,2);
+    return `<div class="card">
+      <div class="card-header" onclick="toggleCard('e${i}','ec${i}')">
+        <div class="card-header-left">
+          <div class="avatar ${color}" style="border-radius:10px">${init}</div>
+          <div>
+            <div class="card-name">${s.name}</div>
+            <div class="card-sub">${s.commune} · ${s.effectif} تلميذ</div>
+          </div>
+        </div>
+        <span class="chevron" id="ec${i}">▾</span>
+      </div>
+      <div class="card-body" id="e${i}">
+        <div class="info-row"><span class="info-label">المربي/ة</span><span class="info-val">${s.animateur}</span></div>
+        <div class="info-row"><span class="info-label">التوقيت</span><span class="info-val">${s.horaire}</span></div>
+        <div class="info-row"><span class="info-label">الجماعة</span><span class="info-val">${s.commune}</span></div>
+        <div class="info-row"><span class="info-label">الإقليم</span><span class="info-val">CHICHAOUA</span></div>
+        <div class="info-row"><span class="info-label">الشريك</span><span class="info-val"><span class="tag tag-blue">INDH</span></span></div>
+        <div class="info-row"><span class="info-label">الفوج</span><span class="info-val"><span class="tag tag-green">${s.effectif} تلميذ</span></span></div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function filterEcoles(){
+  const zone=document.getElementById('filter-zone').value;
+  const anim=document.getElementById('filter-anim-ecole').value;
+  renderEcoles(zone,anim);
+}
+
+function toggleCard(bodyId,chevId){
+  const b=document.getElementById(bodyId);
+  const c=document.getElementById(chevId);
+  b.classList.toggle('open');
+  c.classList.toggle('open');
+}
+
+function renderCriteria(){
+  const list=document.getElementById('criteria-list');
+  list.innerHTML=criteria.map(c=>`
+    <div class="criteria-item">
+      <div class="criteria-num">${c.n}</div>
+      <div class="criteria-text">
+        <div class="criteria-name">${c.name}</div>
+        <div class="criteria-desc">${c.desc}</div>
+        <div class="score-row">
+          ${[0,1,2,3].map(s=>`<div class="score-dot ${scores[c.n]===s?'active-'+s:''}" onclick="setScore(${c.n},${s},this)">${s}</div>`).join('')}
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+function setScore(critNum,val,el){
+  scores[critNum]=val;
+  const row=el.parentElement;
+  row.querySelectorAll('.score-dot').forEach((d,i)=>{
+    d.className='score-dot'+(i===val?' active-'+i:'');
+  });
+}
+
+function calcScore(){
+  const rated=Object.values(scores).filter(s=>s>=0);
+  if(rated.length<14){
+    document.getElementById('score-result').innerHTML=`<div class="warn-box"><div class="warn-title">⚠ تنبيه</div><div class="warn-desc">يرجى تقييم جميع المعايير الـ14 قبل الحفظ. مُقيَّم حالياً: ${rated.length}/14</div></div>`;
+    return;
+  }
+  const total=rated.reduce((a,b)=>a+b,0);
+  const pct=Math.round(total/42*100);
+  let level,color;
+  if(pct>=80){level="ممتاز";color="#166534";}
+  else if(pct>=60){level="جيد";color="#0f766e";}
+  else if(pct>=40){level="متوسط";color="#92400e";}
+  else{level="ضعيف";color="#991b1b";}
+  document.getElementById('score-result').innerHTML=`
+    <div class="score-result-card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+        <div>
+          <div class="stat-label">المجموع الإجمالي</div>
+          <div class="score-big" style="color:${color}">${total}<span style="font-size:16px;color:#9ca3af">/42</span></div>
+        </div>
+        <div style="text-align:left">
+          <div class="stat-label">التقدير العام</div>
+          <div style="font-size:20px;font-weight:700;color:${color}">${level}</div>
+        </div>
+      </div>
+      <div class="progress-bar" style="height:10px">
+        <div class="progress-fill" style="width:${pct}%;background:${color}"></div>
+      </div>
+      <div style="font-size:11px;color:#9ca3af;margin-top:6px">${pct}% من الحد الأقصى (42 نقطة)</div>
+    </div>`;
+}
+
+function updateVisiteSchools(){
+  const anim=document.getElementById('v-animateur').value;
+  const sel=document.getElementById('v-ecole');
+  sel.innerHTML='<option value="">اختر المدرسة</option>';
+  if(!anim) return;
+  const animObj=animateurs.find(a=>a.name===anim);
+  if(animObj) animObj.schools.forEach(s=>{
+    const opt=document.createElement('option');
+    opt.value=s;opt.textContent=s;
+    sel.appendChild(opt);
+  });
+}
+
+function showObjectifs(type){
+  const list=document.getElementById('objectifs-list');
+  const data=objectifs[type]||[];
+  list.innerHTML=`<div class="card"><div style="padding:12px 14px">${data.map(o=>`
+    <div class="objective-item">
+      <div class="obj-num">${o.n}</div>
+      <div class="obj-content">
+        <div class="obj-title">${o.title}</div>
+        <div class="obj-desc">${o.desc}</div>
+        <span class="obj-cible">الهدف: ${o.cible}</span>
+      </div>
+    </div>`).join('')}</div></div>`;
+}
+
+// Init
+renderZones();
+</script>
+</body>
+</html>
